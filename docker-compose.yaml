@@ -1,0 +1,54 @@
+version: "3.8"
+services:
+  envoy-front:
+    image: "envoyproxy/envoy:v1.18.2"
+    ports:
+      - "127.0.0.1:80:80"
+    volumes:
+      - "$PWD/envoy-front/etc:/etc/envoy"
+      - "$PWD/promtail/log/access-envoy-front.log:/dev/stdout"
+  envoy-sidecar-flask-app-1:
+    image: "envoyproxy/envoy:v1.18.2"
+    volumes:
+      - "$PWD/envoy-sidecar-flask-app-1/etc:/etc/envoy"
+      - "$PWD/promtail/log/access-envoy-sidecar-flask-app-1.log:/dev/stdout"
+  envoy-sidecar-flask-app-2:
+    image: "envoyproxy/envoy:v1.18.2"
+    volumes:
+      - "$PWD/envoy-sidecar-flask-app-2/etc:/etc/envoy"
+      - "$PWD/promtail/log/access-envoy-sidecar-flask-app-2.log:/dev/stdout"
+  grafana:
+    image: "grafana/grafana:7.5.5"
+    user: "root"
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+    volumes:
+      - "$PWD/grafana/data:/var/lib/grafana"
+      - "$PWD/grafana/etc:/etc/grafana"
+  loki:
+    image: "grafana/loki:2.2.1"
+    volumes:
+      - "$PWD/loki/etc:/etc/loki"
+      - "$PWD/loki/data:/loki/tmp"
+  prometheus:
+    image: "prom/prometheus:v2.26.0"
+    user: "root"
+    volumes:
+      - "$PWD/prometheus/etc:/etc/prometheus"
+      - "$PWD/prometheus/data:/prometheus"
+  promtail: 
+    image: "grafana/promtail:2.2.1"
+    volumes:
+      - "$PWD/promtail/log:/var/log"
+  zipkin: 
+    image: "openzipkin/zipkin:2.23"
+  flask-app-1:
+    build: "$PWD/flask-app-1/"
+  flask-app-2:
+    build: "$PWD/flask-app-2/"
+    
+  
+        
+  

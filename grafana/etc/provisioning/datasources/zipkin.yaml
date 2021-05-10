@@ -1,0 +1,6 @@
+apiVersion: 1
+
+datasources:
+  - name: Zipkin
+    type: zipkin
+    url: http://jaeger:9411
