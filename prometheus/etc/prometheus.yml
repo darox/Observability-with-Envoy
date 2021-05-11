@@ -40,5 +40,20 @@ scrape_configs:
         - 'envoy-front:9901'
         - 'envoy-sidecar-flask-app-1:9901'
         - 'envoy-sidecar-flask-app-2:9901'
+
+  - job_name: 'blackbox'
+    metrics_path: /probe
+    file_sd_configs:
+      - files:
+         - '/etc/prometheus/targets.yml'
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - source_labels: [module]
+        target_label: __param_module
+      - target_label: __address__
+        replacement: blackbox:9115
  
 

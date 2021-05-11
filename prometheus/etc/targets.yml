@@ -1,0 +1,5 @@
+
+- labels:
+    module: http_2xx
+  targets:
+  - http://envoy-front/

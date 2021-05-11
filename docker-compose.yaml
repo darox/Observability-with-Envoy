@@ -50,6 +50,10 @@ services:
     build: "$PWD/flask-app-1/"
   flask-app-2:
     build: "$PWD/flask-app-2/"
+  blackbox:
+    image: "prom/blackbox-exporter:v0.18.0"
+    volumes:
+      - "$PWD/blackbox/etc:/etc/blackbox_exporter"
     
   
         

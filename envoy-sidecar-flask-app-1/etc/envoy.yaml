@@ -48,14 +48,14 @@ static_resources:
           route_config:
             name: local_route
             virtual_hosts:
-            - name: envoy-sidecar-flask-app-1
+            - name: envoy-sidecar-flask-app-2
               domains:
               - "*"
               routes:
               - match:
                   prefix: "/"
                 route:
-                  cluster: flask-app-1
+                  cluster: envoy-sidecar-flask-app-2
           http_filters:
           - name: envoy.filters.http.router
             typed_config: {}   

@@ -48,7 +48,7 @@ static_resources:
           route_config:
             name: local_route
             virtual_hosts:
-            - name: envoy-sidecar-flask-app-2
+            - name: flask-app-2
               domains:
               - "*"
               routes:
