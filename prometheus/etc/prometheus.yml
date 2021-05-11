@@ -30,10 +30,15 @@ scrape_configs:
 
   - job_name: 'envoy'
     metrics_path: /stats/prometheus
+    relabel_configs:
+      - source_labels: [ __address__ ]
+        target_label: instance
+        regex: '(.*):9901'
+        replacement: '${1}'
     static_configs:
       - targets: 
-        - 'envoy-front'
-        - 'envoy-sidecar-flask-app-1'
-        - 'envoy-sidecar-flask-app-2'
+        - 'envoy-front:9901'
+        - 'envoy-sidecar-flask-app-1:9901'
+        - 'envoy-sidecar-flask-app-2:9901'
  
 

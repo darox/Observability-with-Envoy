@@ -6,7 +6,9 @@ app = Flask(__name__)
 @app.route('/', methods=["GET"])
 def index():
     try:
-        return jsonify(requests.get("http://envoy-sidecar-flask-app-2/api/v1/status"))
+        response = requests.get("http://envoy-sidecar-flask-app-2/api/v1/status")
+    
+        return jsonify(response.json())
     except:
         return "Internal Server Error", 500
 

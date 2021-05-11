@@ -60,12 +60,12 @@ static_resources:
           - name: envoy.filters.http.router
             typed_config: {}   
   clusters:
-  - name: flask-app-1  
+  - name: envoy-sidecar-flask-app-2
     connect_timeout: 0.25s
     type: STRICT_DNS
     lb_policy: ROUND_ROBIN
     load_assignment:
-      cluster_name: flask-app-1 
+      cluster_name: envoy-sidecar-flask-app-2
       endpoints:
       - lb_endpoints:
         - endpoint:

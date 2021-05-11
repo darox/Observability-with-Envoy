@@ -9,7 +9,7 @@ def serve_api():
     x =  '{"NetworkStatus": "UP"}'
     y = json.loads(x)
 
-    return y
+    return jsonify(y)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=False)
