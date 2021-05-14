@@ -14,7 +14,7 @@ static_resources:
       - name: envoy.filters.network.http_connection_manager
         typed_config:
           "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
-          generate_request_id: true
+          generate_request_id: false
           tracing:
             provider:
               name: envoy.tracers.zipkin
@@ -23,6 +23,7 @@ static_resources:
                 collector_cluster: zipkin
                 collector_endpoint: "/api/v2/spans"
                 collector_endpoint_version: HTTP_JSON
+                shared_span_context: false
           access_log:
           - name: envoy.access_loggers.file
             typed_config:
@@ -46,9 +47,9 @@ static_resources:
           stat_prefix: ingress_http
           codec_type: AUTO
           route_config:
-            name: local_route
+            name: envoy-sidecar-2
             virtual_hosts:
-            - name: flask-app-2
+            - name: envoy-sidecar-2
               domains:
               - "*"
               routes:
@@ -56,6 +57,8 @@ static_resources:
                   prefix: "/"
                 route:
                   cluster: flask-app-2
+                decorator:
+                  operation: Call flask app 2
           http_filters:        
           - name: envoy.filters.http.router
             typed_config: {}   

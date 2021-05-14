@@ -9,6 +9,7 @@ static_resources:
       socket_address:
         address: 0.0.0.0
         port_value: 80
+    traffic_direction: "inbound"
     filter_chains:
     - filters:
       - name: envoy.filters.network.http_connection_manager
@@ -23,6 +24,7 @@ static_resources:
                 collector_cluster: zipkin
                 collector_endpoint: "/api/v2/spans"
                 collector_endpoint_version: HTTP_JSON
+                shared_span_context: false
           access_log:
           - name: envoy.access_loggers.file
             typed_config:
@@ -46,32 +48,41 @@ static_resources:
           stat_prefix: ingress_http
           codec_type: AUTO
           route_config:
-            name: local_route
+            name: envoy-front
             virtual_hosts:
-            - name: envoy-sidecar-flask-app-1    
+            - name: envoy-front
               domains:
               - "*"
               routes:
               - match:
                   prefix: "/"
                 route:
-                  cluster: envoy-sidecar-flask-app-1    
+                  cluster: envoy-sidecar-1
+                decorator:
+                  operation: Call sidecar 1
+              response_headers_to_add:
+              - header:
+                  key: "x-b3-traceid"
+                  value: "%REQ(x-b3-traceid)%"
+              - header:
+                  key: "x-request-id"
+                  value: "%REQ(x-request-id)%"        
           http_filters:
           - name: envoy.filters.http.router
-            typed_config: {}   
+            typed_config: {}  
   clusters:
-  - name: envoy-sidecar-flask-app-1  
+  - name: envoy-sidecar-1
     connect_timeout: 0.25s
     type: STRICT_DNS
     lb_policy: ROUND_ROBIN
     load_assignment:
-      cluster_name: envoy-sidecar-flask-app-1  
+      cluster_name: envoy-sidecar-1
       endpoints:
       - lb_endpoints:
         - endpoint:
             address:
               socket_address:
-                address: envoy-sidecar-flask-app-1
+                address: envoy-sidecar-1
                 port_value: 80  
   - name: zipkin
     connect_timeout: 0.25s
@@ -84,5 +95,5 @@ static_resources:
         - endpoint:
             address:
               socket_address:
-                address: zipkin   
-                port_value: 9411                   
+                address: zipkin
+                port_value: 9411                       
