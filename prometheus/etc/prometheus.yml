@@ -38,8 +38,8 @@ scrape_configs:
     static_configs:
       - targets: 
         - 'envoy-front:9901'
-        - 'envoy-sidecar-flask-app-1:9901'
-        - 'envoy-sidecar-flask-app-2:9901'
+        - 'envoy-sidecar-1:9901'
+        - 'envoy-sidecar-2:9901'
 
   - job_name: 'blackbox'
     metrics_path: /probe

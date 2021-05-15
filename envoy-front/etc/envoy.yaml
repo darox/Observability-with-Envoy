@@ -33,6 +33,7 @@ static_resources:
               json_format:
                 time: "%START_TIME%"
                 duration: "%DURATION%"
+                trace_id: "%REQ(X-B3-TRACEID)%"
                 request_method: "%REQ(:METHOD)%"
                 request_path: "%REQ(X-ENVOY-ORIGINAL-PATH?:PATH)%"
                 server_name: "%REQUESTED_SERVER_NAME%"

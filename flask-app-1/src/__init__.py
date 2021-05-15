@@ -1,7 +1,8 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 import requests
 
 app = Flask(__name__)
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 
 TRACE_HEADERS_TO_PROPAGATE = [
@@ -26,9 +27,11 @@ def index():
             headers[header] = request.headers[header]
     try:
         response = requests.get("http://envoy-sidecar-1:9090/api/v1/status", headers=headers)
-    
-        return jsonify(response.json())
-    except:
+
+        return response.json(), 200
+
+    except AssertionError as e:
+        print(e)
         return "Internal Server Error", 500
 
 if __name__ == "__main__":
