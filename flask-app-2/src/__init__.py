@@ -10,14 +10,14 @@ def serve_api():
         "listedBooks": [
             {
                 "id": 1, 
-                "title": "absalom, absalom", 
-                "author": "william faulkner", 
+                "title": "Absalom, Absalom!", 
+                "author": "William Faulkner", 
                 "year": 1936
             },
             {
                 "id": 2, 
-                "title": "a time to kill", 
-                "author": "john grisham", 
+                "title": "A time to kill", 
+                "author": "John Grisham", 
                 "year": 1989
             }
         ]

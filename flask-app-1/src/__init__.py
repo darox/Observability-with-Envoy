@@ -1,7 +1,13 @@
 from flask import Flask, request, render_template
-import requests
+import requests, json_logging, logging
 
 app = Flask(__name__)
+
+json_logging.init_flask(enable_json=True)
+logger = logging.getLogger("flask-app-1")
+logger.setLevel(logging.ERROR)
+handler = logging.handlers.RotatingFileHandler(filename='/log/error.log', maxBytes=5000000, backupCount=10)
+logger.addHandler(handler)
 
 
 TRACE_HEADERS_TO_PROPAGATE = [
@@ -24,17 +30,19 @@ def index():
     for header in TRACE_HEADERS_TO_PROPAGATE:
         if header in request.headers:
             headers[header] = request.headers[header]   
-    print(headers)            
+    print(headers)   
+    print(headers['X-B3-TraceId'])      
     
     try:
         response = requests.get("http://envoy-sidecar-1:9090/api/v1/status", headers=headers)
-        print(response.json())
 
-        return render_template("index.html", response=response), 200
+        return render_template("index.html", response=response.json()), 200
 
     except AssertionError as e:
-        return render_template("error.html"), 500
-        print(e)
+        message = str(e)
+        traceid = headers['X-B3-TraceId']
+        logger.error(message, extra={'props': {'trace_id': traceid}})
+        return 500
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=False)
