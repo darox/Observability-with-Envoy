@@ -3,4 +3,4 @@ ADD src/ /src
 WORKDIR /src
 RUN pip install -r requirements.txt
 RUN mkdir /log/
-CMD [ "python", "./__init__.py" ]
+CMD [ "python", "./flask-app-1.py" ]
