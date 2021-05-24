@@ -1,7 +1,7 @@
 groups:
   - name: SLI
     rules:
-      - record: book_store_service_availability
+      - record: book_store_service_error
         expr: |
           sum(
             count_over_time(
@@ -45,6 +45,30 @@ groups:
             OR on() vector(0)
           )
           * 100
+
+      - record: book_store_service_traffic_fullfilled
+        expr: rate(envoy_http_downstream_rq_total{envoy_http_conn_manager_prefix="ingress_http", instance="envoy-front"}[5m]) < 0.300
+
+      - record: book_store_service_traffic_all
+        expr: rate(envoy_http_downstream_rq_total{envoy_http_conn_manager_prefix="ingress_http", instance="envoy-front"}[5m])
+
+      - record: book_store_service_traffic
+        expr: |
+          sum(
+            count_over_time(
+                book_store_service_traffic_fullfilled
+              [28d:]
+            )
+          )
+          /
+          sum(
+            count_over_time(
+                book_store_service_traffic_all
+              [28d:]
+            )
+            OR on() vector(0)
+          )
+          * 100    
 
 
 

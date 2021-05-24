@@ -42,6 +42,7 @@ scrape_configs:
         - 'envoy-sidecar-2:9901'
 
   - job_name: 'blackbox'
+    scrape_interval: 5s
     metrics_path: /probe
     file_sd_configs:
       - files:

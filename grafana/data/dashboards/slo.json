@@ -56,7 +56,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 13,
+        "h": 6,
         "w": 12,
         "x": 0,
         "y": 1
@@ -81,7 +81,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "(book_store_service_latency + book_store_service_latency) / 2",
+          "expr": "(book_store_service_error + book_store_service_latency + book_store_service_traffic ) / 3",
           "interval": "",
           "legendFormat": "participants-service",
           "queryType": "randomWalk",
@@ -110,7 +110,7 @@
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 13,
+        "h": 6,
         "w": 12,
         "x": 12,
         "y": 1
@@ -144,7 +144,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "(book_store_service_latency + book_store_service_latency) / 2",
+          "expr": "(book_store_service_error + book_store_service_latency + book_store_service_traffic) / 3",
           "interval": "",
           "legendFormat": "Book Store",
           "queryType": "randomWalk",
@@ -212,7 +212,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 14
+        "y": 7
       },
       "id": 7,
       "panels": [],
@@ -241,10 +241,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
+        "h": 6,
         "w": 12,
         "x": 0,
-        "y": 15
+        "y": 8
       },
       "id": 8,
       "options": {
@@ -266,7 +266,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "book_store_service_availability",
+          "expr": "book_store_service_error",
           "interval": "",
           "legendFormat": "Availability",
           "queryType": "randomWalk",
@@ -275,7 +275,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Availability != 5xx",
+      "title": "Error = 5xx",
       "transparent": true,
       "type": "stat"
     },
@@ -294,10 +294,10 @@
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 8,
+        "h": 6,
         "w": 12,
         "x": 12,
-        "y": 15
+        "y": 8
       },
       "hiddenSeries": false,
       "id": 9,
@@ -328,7 +328,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "book_store_service_availability",
+          "expr": "book_store_service_error",
           "interval": "",
           "legendFormat": "availability",
           "queryType": "randomWalk",
@@ -339,7 +339,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Availability != 5xx",
+      "title": "Error  = 5xx",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -401,10 +401,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 9,
+        "h": 6,
         "w": 12,
         "x": 0,
-        "y": 23
+        "y": 14
       },
       "id": 10,
       "options": {
@@ -428,7 +428,7 @@
           "exemplar": true,
           "expr": "book_store_service_latency",
           "interval": "",
-          "legendFormat": "Availability",
+          "legendFormat": "Latency",
           "queryType": "randomWalk",
           "refId": "A"
         }
@@ -441,6 +441,7 @@
     },
     {
       "aliasColors": {
+        "Latency": "purple",
         "availability": "purple"
       },
       "bars": false,
@@ -454,10 +455,10 @@
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 9,
+        "h": 6,
         "w": 12,
         "x": 12,
-        "y": 23
+        "y": 14
       },
       "hiddenSeries": false,
       "id": 11,
@@ -490,7 +491,7 @@
           "exemplar": true,
           "expr": "book_store_service_latency",
           "interval": "",
-          "legendFormat": "availability",
+          "legendFormat": "Latency",
           "queryType": "randomWalk",
           "refId": "A"
         }
@@ -538,6 +539,163 @@
         "align": false,
         "alignLevel": null
       }
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "yellow",
+                "value": null
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 20
+      },
+      "id": 12,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.5.5",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "book_store_service_traffic",
+          "interval": "",
+          "legendFormat": "Traffic",
+          "queryType": "randomWalk",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Traffic < 0.300 RPS",
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "graph": false,
+              "legend": false,
+              "tooltip": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": true
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Traffic"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 20
+      },
+      "id": 13,
+      "options": {
+        "graph": {},
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltipOptions": {
+          "mode": "single"
+        }
+      },
+      "pluginVersion": "7.5.5",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "book_store_service_traffic",
+          "interval": "",
+          "legendFormat": "Traffic",
+          "queryType": "randomWalk",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Traffic < 0.300 RPS",
+      "transparent": true,
+      "type": "timeseries"
     }
   ],
   "refresh": "5s",
@@ -555,5 +713,5 @@
   "timezone": "",
   "title": "SLO",
   "uid": "D0AsrVjMz",
-  "version": 3
+  "version": 12
 }

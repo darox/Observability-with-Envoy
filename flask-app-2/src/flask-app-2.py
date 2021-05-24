@@ -1,7 +1,10 @@
 from flask import Flask, jsonify, request
-import requests, json
+import requests, json_logging, logging
 
 app = Flask(__name__)
+
+json_logging.init_flask(enable_json=True)
+json_logging.init_request_instrument(app)
 
 @app.route('/api/v1/status', methods=["GET"])
 def serve_api():
