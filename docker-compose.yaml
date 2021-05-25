@@ -43,6 +43,8 @@ services:
   prometheus:
     image: "prom/prometheus:v2.26.0"
     user: "root"
+    ports:
+      - "127.0.0.1:9090:9090"
     volumes:
       - "$PWD/prometheus/etc:/etc/prometheus"
       - "$PWD/prometheus/data:/prometheus"
@@ -60,6 +62,8 @@ services:
     build: "$PWD/flask-app-2/"
   blackbox:
     image: "prom/blackbox-exporter:v0.18.0"
+    ports:
+      - "127.0.0.1:9115:9115"
     volumes:
       - "$PWD/blackbox/etc:/etc/blackbox_exporter"
 
