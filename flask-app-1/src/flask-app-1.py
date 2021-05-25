@@ -35,11 +35,9 @@ def index():
     
     try:
         response = requests.get("http://envoy-sidecar-1:9090/api/v1/status", headers=headers)
-        logger.info("This request was handeled successfully")
         return render_template("index.html", response=response.json()), 200
 
     except AssertionError as e:
-        logger.error("This request has failed")
         return 500
 
 if __name__ == "__main__":
