@@ -2,6 +2,8 @@
 
 A sandbox environment to play around with the three pillars of observability and traceID correlation. The observability completely takes place in Envoy, no code instrumentation in the Python Flask apps. This project also includes some Service Level Indicator recording rules in Prometheus and a dashboard for it in Grafana. Everything is preconfigured and should work out of the box. 
 
+
+The overall request flow looks like this:
 ![Alt text](images/Overview.png?raw=true "Architecture")
 
 The environment consists of:
