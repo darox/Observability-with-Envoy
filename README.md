@@ -1,6 +1,6 @@
 # Observability with Envoy
 
-A sandbox environment to play around with the three pillars of observability and traceID correlation. The observability completely happens in Envoy, no code instrumentation in the Python Flask App. This project also includes some Service Level Indicator recording rules in Prometheus and a dashboard for it in Grafana. Everything is preconfigured and should work out of the box. 
+A sandbox environment to play around with the three pillars of observability and traceID correlation. The observability completely takes place in Envoy, no code instrumentation in the Python Flask apps. This project also includes some Service Level Indicator recording rules in Prometheus and a dashboard for it in Grafana. Everything is preconfigured and should work out of the box. 
 
 ![Alt text](images/Overview.png?raw=true "Architecture")
 
@@ -11,13 +11,12 @@ The environment consists of:
 - Loki
 - Promtail
 - Zipkin
-- Python Flask Apps
+- Python Flask apps
 - Envoy proxy
 
-In a real world scenario you would typically run this kind of environment on k8s and inject the Envoy proxy into the pod.However, I wanted to keep it simple. That's why I have chosen Docker-Compose over k8s. 
+In a real world scenario you would typically run this kind of environment on k8s and inject the Envoy proxy into the pod However, I wanted to keep it simple. That's why I have chosen Docker-Compose over k8s. 
 
-The Blackbox Exporter is configured to probe the Python Python app every 
-
+![Alt text](images/requestflow.png?raw=true "Request flow")
 
 ## Prerequisites
 - Docker Desktop https://www.docker.com/products/docker-desktop
