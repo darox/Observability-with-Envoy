@@ -55,9 +55,9 @@ I plan adding additional features to this sandbox project, as they come availabl
 ## Tested on
 
 The stack was tested on:
-- Ubuntu 20.04 x86
-- Windows x86
-- MacOS ARM64
+- Ubuntu 20.04 - x86
+- Windows 10 - x86
+- MacOS Big Sur 11.3.1 - ARM64
 
 
 ### Warning
