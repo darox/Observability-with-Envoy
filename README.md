@@ -52,6 +52,13 @@ I plan adding additional features to this sandbox project, as they come availabl
 - Exemplars 
 - Add traceID to error log of Python Flask apps. 
 
+## Tested on
+
+The stack was tested on:
+- Ubuntu 20.04 x86
+- Windows x86
+- MacOS ARM64
+
 
 ### Warning
 
