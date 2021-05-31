@@ -62,6 +62,6 @@ The stack was tested on:
 
 ### Warning
 
-Do not run this stack at all in a production environment. It's not secured at all. 
+Do not run this stack at all in a production environment. It's not secure!
 
 
