@@ -21,7 +21,7 @@ groups:
         expr: | 
               histogram_quantile(
                 0.99, envoy_cluster_upstream_rq_time_bucket{instance="envoy-front", envoy_cluster_name="envoy-sidecar-1", envoy_response_code_class!="5"} 
-              ) < 60 
+              ) < 400
       - record: book_store_service_latency_p99_all
         expr: | 
               histogram_quantile(

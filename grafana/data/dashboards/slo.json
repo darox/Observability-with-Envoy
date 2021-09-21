@@ -435,7 +435,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Latency < 60ms ",
+      "title": "Latency < 400ms ",
       "transparent": true,
       "type": "stat"
     },
